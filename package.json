@@ -7,7 +7,7 @@
         "start": "ng serve -o",
         "build": "npm run pipeline:build:prd",
         "test": "ng test",
-        "lint": "ng lint",
+        "lint": "npm run build-step:lint",
         "e2e": "ng e2e",
         "clean-step:dist": "node lib/rimraf-standalone.js dist",
         "clean-step:node_modules": "node lib/rimraf-standalone.js node_modules",
