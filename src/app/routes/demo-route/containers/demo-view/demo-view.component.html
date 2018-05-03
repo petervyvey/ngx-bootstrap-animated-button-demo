@@ -1,3 +1,20 @@
-<p>
-    Demo of Angular + Bootstrap animated buttons
-</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <p>
+                Demo of Angular + Bootstrap animated buttons
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+        <div class="col-sm">
+            <app-component-animated-button [options]="{defaultClass: 'btn-warning', iconPosition: 'left'}"></app-component-animated-button>
+        </div>
+        <div class="col-sm">
+            One of three columns
+        </div>
+    </div>
+</div>

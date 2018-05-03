@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { DemoViewComponent } from './containers/demo-view/demo-view.component';
+import { DemoViewModule } from '@routes/demo-route/containers/demo-view/demo-view.module';
 import { DemoRouteRoutingModule } from './demo-route-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        DemoViewModule,
         DemoRouteRoutingModule
-    ],
-    declarations: [
-        DemoViewComponent
     ]
 })
-export class DemoRouteModule { }
+export class DemoRouteModule {
+}
