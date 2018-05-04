@@ -9,28 +9,15 @@ import { BehaviorSubject } from 'rxjs/Rx';
 })
 export class AnimatedButtonComponent implements OnInit {
 
-    constructor() {
-    }
+    constructor() { }
 
     @Input()
-    get options(): Partial<IAnimatedButtonSettings> {
-        return this.options$.value;
-    }
-
-    set options(value: Partial<IAnimatedButtonSettings>) {
-        this.options$.next(value);
-    }
-
+    get options(): Partial<IAnimatedButtonSettings> { return this.options$.value; }
+    set options(value: Partial<IAnimatedButtonSettings>) { this.options$.next(value); }
     options$ = new BehaviorSubject<Partial<IAnimatedButtonSettings>>({});
 
-    get settings(): IAnimatedButtonSettings {
-        return this.settings$.value;
-    }
-
-    set settings(value: IAnimatedButtonSettings) {
-        this.settings$.next(value);
-    }
-
+    get settings(): IAnimatedButtonSettings { return this.settings$.value; }
+    set settings(value: IAnimatedButtonSettings) { this.settings$.next(value); }
     settings$ = new BehaviorSubject<IAnimatedButtonSettings>(Object.assign({}, animatedButtonDefaultSettings));
 
     cssClasses: ICssClasses = {};
