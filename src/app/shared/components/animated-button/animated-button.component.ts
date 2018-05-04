@@ -11,31 +11,30 @@ export class AnimatedButtonComponent implements OnInit {
 
     constructor() { }
 
+    buttonCssClasses: ICssClasses = {};
+    contentCssClasses: ICssClasses = {};
+
+    private options$ = new BehaviorSubject<Partial<IAnimatedButtonSettings>>({});
+    private settings$ = new BehaviorSubject<IAnimatedButtonSettings>(Object.assign({}, animatedButtonDefaultSettings));
+
     @Input()
     get options(): Partial<IAnimatedButtonSettings> { return this.options$.value; }
     set options(value: Partial<IAnimatedButtonSettings>) { this.options$.next(value); }
-    options$ = new BehaviorSubject<Partial<IAnimatedButtonSettings>>({});
-
     get settings(): IAnimatedButtonSettings { return this.settings$.value; }
     set settings(value: IAnimatedButtonSettings) { this.settings$.next(value); }
-    settings$ = new BehaviorSubject<IAnimatedButtonSettings>(Object.assign({}, animatedButtonDefaultSettings));
-
-    cssClasses: ICssClasses = {};
-
     ngOnInit() {
         this.options$
-            .map(options => {
-                this.settings = Object.assign({}, animatedButtonDefaultSettings, options);
-                return {
-                    "btn": true,
-                    "btn-primary": this.settings.defaultClass === 'btn-primary',
-                    "btn-warning": this.settings.defaultClass === 'btn-warning',
-                    "btn-danger": this.settings.defaultClass === 'btn-danger',
-                    "right": this.settings.iconPosition !== 'left',
-                    "left": this.settings.iconPosition === 'left',
-                };
-            })
-            .subscribe(x => this.cssClasses = x);
+            .map(options => this.settings = {...animatedButtonDefaultSettings, ...options})
+            .subscribe(
+                settings => {
+                    this.buttonCssClasses['btn'] = true;
+                    this.buttonCssClasses['btn-primary'] = settings.defaultClass === 'btn-primary';
+                    this.buttonCssClasses['btn-warning'] = settings.defaultClass === 'btn-warning';
+                    this.buttonCssClasses['btn-danger'] = settings.defaultClass === 'btn-danger';
+
+                    this.contentCssClasses['flex-row-reverse'] = settings.iconPosition !== 'left';
+                    this.contentCssClasses['flex-row'] = settings.iconPosition === 'left';
+                });
     }
 
 }

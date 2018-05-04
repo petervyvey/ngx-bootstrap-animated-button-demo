@@ -1,5 +1,5 @@
-<button [ngClass]="cssClasses">
-    <div class="d-flex flex-row">
+<button [ngClass]="buttonCssClasses">
+    <div class="d-flex" [ngClass]="contentCssClasses">
         <div class="p-2"><fa name="refresh"></fa></div>
         <div class="p-2">Submit</div>
     </div>
