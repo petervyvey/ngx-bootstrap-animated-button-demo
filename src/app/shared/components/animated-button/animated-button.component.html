@@ -1,6 +1,13 @@
 <button [ngClass]="buttonCssClasses">
     <div class="d-flex" [ngClass]="contentCssClasses">
-        <div class="p-2"><fa name="refresh"></fa></div>
-        <div class="p-2">Submit</div>
+        <ng-container *ngIf="animating$ | async">
+            <div class="px-2"><fa name="refresh" animation="spin"></fa></div>
+            <div class="p-0" [innerHtml]="animatingText$ | async"></div>
+        </ng-container>
+        <ng-container *ngIf="!(animating$ | async)">
+            <div class="p-0">
+                <ng-content></ng-content>
+            </div>
+        </ng-container>
     </div>
 </button>
