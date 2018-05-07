@@ -8,15 +8,24 @@
     </div>
     <div class="row">
         <div class="col-sm">
+            <form #basic="ngForm" (submit)="onBasicSubmitted(basic)">
+                <app-component-animated-button [options]="{defaultClass: 'btn-warning', iconPosition: 'left'}">
+                    Submit
+                </app-component-animated-button>
+            </form>
+        </div>
+        <div class="col-sm">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
             <button class="btn btn-primary">Submit</button>
         </div>
         <div class="col-sm">
             <app-component-animated-button [options]="{defaultClass: 'btn-warning', iconPosition: 'left'}">
                 Submit
             </app-component-animated-button>
-        </div>
-        <div class="col-sm">
-            One of three columns
         </div>
     </div>
 </div>
