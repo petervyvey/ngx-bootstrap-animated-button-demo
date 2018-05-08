@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { animatedButtonDefaultSettings, IAnimatedButtonSettings, ICssClasses } from '@components/animated-button/animated-button-settings';
 import { AnimatedButtonState } from '@components/animated-button/animated-button-state';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { BehaviorSubject } from 'rxjs/Rx';
 
 @Component({
@@ -8,28 +10,44 @@ import { BehaviorSubject } from 'rxjs/Rx';
     templateUrl: './animated-button.component.html',
     styleUrls: ['./animated-button.component.scss']
 })
-export class AnimatedButtonComponent implements OnInit {
+export class AnimatedButtonComponent implements OnInit, OnDestroy {
 
     constructor() { }
 
     private static readonly DEFAULT_SUBMITTING_TEXT: string = 'Submitting...';
+    private static readonly DEFAULT_SUCCESS_TEXT: string = 'Completed';
+    private static readonly DEFAULT_ERROR_TEXT: string = 'Failed';
 
     buttonCssClasses: ICssClasses = {};
     contentCssClasses: ICssClasses = {};
 
+    public outerState$ = new BehaviorSubject<AnimatedButtonState>(AnimatedButtonState.Default);
+    public innerState$ = new BehaviorSubject<AnimatedButtonState>(AnimatedButtonState.Default);
+    public submittingText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_SUBMITTING_TEXT);
+    public successText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_SUCCESS_TEXT);
+    public errorText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_ERROR_TEXT);
+
+    private destroy$ = new ReplaySubject<boolean>();
     private options$ = new BehaviorSubject<Partial<IAnimatedButtonSettings>>({});
     private settings$ = new BehaviorSubject<IAnimatedButtonSettings>(Object.assign({}, animatedButtonDefaultSettings));
-    public state$ = new BehaviorSubject<AnimatedButtonState>(AnimatedButtonState.Default);
-    public submittingText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_SUBMITTING_TEXT);
 
     @Input()
     set options(value: Partial<IAnimatedButtonSettings>) { this.options$.next(value); }
 
-    @Input()
-    set state(value: AnimatedButtonState) { this.state$.next(value); }
+    @Input('state')
+    set outerState(value: AnimatedButtonState) { this.outerState$.next(value); }
 
     @Input()
-    set animatingText(value: string) { this.submittingText$.next(value); }
+    set submittingText(value: string) { this.submittingText$.next(value); }
+
+    @Input()
+    set successText(value: string) { this.successText$.next(value); }
+
+    @Input()
+    set errorText(value: string) { this.errorText$.next(value); }
+
+    get innerState(): AnimatedButtonState {return this.innerState$.value;}
+    set innerState(value: AnimatedButtonState) { this.innerState$.next(value); }
 
     get settings(): IAnimatedButtonSettings { return this.settings$.value; }
     set settings(value: IAnimatedButtonSettings) { this.settings$.next(value); }
@@ -51,10 +69,12 @@ export class AnimatedButtonComponent implements OnInit {
                     this.contentCssClasses['flex-row'] = settings.iconPosition === 'left';
                 });
 
-        this.state$
-            .filter(x => !!x)
-            .subscribe(x => {
-                switch (x) {
+        Observable.combineLatest(this.outerState$, this.innerState$)
+            .takeUntil(this.destroy$)
+            .filter(([outer, inner]) => !!outer && !!inner)
+            .debounceTime(20)
+            .subscribe(([outer, inner]) => {
+                switch (inner) {
                     case AnimatedButtonState.Default:
                         this.buttonCssClasses[this.settings.defaultClass] = true;
                         this.buttonCssClasses[this.settings.submittingClass] = false;
@@ -83,8 +103,23 @@ export class AnimatedButtonComponent implements OnInit {
                         this.buttonCssClasses[this.settings.errorClass] = true;
                         break;
                 }
-
             });
+
+        this.outerState$
+            .takeUntil(this.destroy$)
+            .filter(x => !!x)
+            .subscribe(outer => this.innerState = outer);
+
+        this.innerState$
+            .takeUntil(this.destroy$)
+            .filter(inner => inner === AnimatedButtonState.Success || inner === AnimatedButtonState.Error)
+            .throttleTime(2000)
+            .debounceTime(2000)
+            .subscribe(() => this.innerState = AnimatedButtonState.Default);
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next(true);
     }
 
 }

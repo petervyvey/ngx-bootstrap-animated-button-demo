@@ -12,20 +12,29 @@ export class DemoViewComponent implements OnInit {
 
     constructor(private api: FakeApiService) { }
 
-    animating = AnimatedButtonState.Default;
+    basicState = AnimatedButtonState.Default;
+    errorState = AnimatedButtonState.Default;
 
     ngOnInit() {
     }
 
     onBasicSubmitted(basic: NgForm) {
         console.log('basic', basic);
-        this.animating = AnimatedButtonState.Submitting;
+        this.basicState = AnimatedButtonState.Submitting;
         this.api.doSomething()
             .first()
-            .subscribe(x => {
-                console.log('api', x);
-                this.animating = AnimatedButtonState.Success;
-            });
+            .subscribe(() => this.basicState = AnimatedButtonState.Success);
+    }
+
+    onErrorSubmitted(error: NgForm) {
+        console.log('error', error);
+        this.errorState = AnimatedButtonState.Submitting;
+        this.api.doSomethingStupid()
+            .first()
+            .subscribe(
+                () => this.errorState = AnimatedButtonState.Success,
+                () => this.errorState = AnimatedButtonState.Error
+            );
     }
 
 }

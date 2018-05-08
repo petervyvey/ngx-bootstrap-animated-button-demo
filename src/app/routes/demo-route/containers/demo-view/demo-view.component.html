@@ -9,23 +9,21 @@
     <div class="row">
         <div class="col-sm">
             <form #basic="ngForm" (submit)="onBasicSubmitted(basic)">
-                <app-component-animated-button [state]="animating" [options]="{defaultClass: 'btn-default', iconPosition: 'left'}">
+                <app-component-animated-button [state]="basicState" [options]="{defaultClass: 'btn-default', iconPosition: 'left'}">
                     Submit
                 </app-component-animated-button>
             </form>
         </div>
-        <div class="col-sm">
-
-        </div>
+        <div class="col-sm"></div>
     </div>
-    <div class="row">
+    <div class="row" style="padding-top:20px;">
         <div class="col-sm">
-            <button class="btn btn-primary">Submit</button>
+            <form #error="ngForm" (submit)="onErrorSubmitted(error)">
+                <app-component-animated-button [state]="errorState" [options]="{defaultClass: 'btn-default', iconPosition: 'left'}">
+                    Wrong
+                </app-component-animated-button>
+            </form>
         </div>
-        <div class="col-sm">
-            <app-component-animated-button [options]="{defaultClass: 'btn-warning', iconPosition: 'left'}">
-                Submit
-            </app-component-animated-button>
-        </div>
+        <div class="col-sm"></div>
     </div>
 </div>

@@ -12,4 +12,11 @@ export class FakeApiService {
             .delay(3000);
     }
 
+    doSomethingStupid(): Observable<any> {
+        return Observable
+            .of(null)
+            .delay(3000)
+            .switchMap(() => Observable.throw('Something went wrong'));
+    }
+
 }
