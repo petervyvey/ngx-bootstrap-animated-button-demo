@@ -1,10 +1,12 @@
-<button [ngClass]="buttonCssClasses">
+<button [ngClass]="buttonCssClasses" [disabled]="(state$ | async) == 'SUBMITTING'">
     <div class="d-flex" [ngClass]="contentCssClasses">
-        <ng-container *ngIf="animating$ | async">
-            <div class="px-2"><fa name="refresh" animation="spin"></fa></div>
-            <div class="p-0" [innerHtml]="animatingText$ | async"></div>
+        <ng-container *ngIf="(state$ | async) == 'SUBMITTING'">
+            <div class="px-2">
+                <fa name="refresh" animation="spin"></fa>
+            </div>
+            <div class="p-0" [innerHtml]="submittingText$ | async"></div>
         </ng-container>
-        <ng-container *ngIf="!(animating$ | async)">
+        <ng-container *ngIf="(state$ | async) != 'SUBMITTING'">
             <div class="p-0">
                 <ng-content></ng-content>
             </div>
