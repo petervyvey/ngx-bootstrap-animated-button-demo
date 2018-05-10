@@ -19,7 +19,6 @@ export class DemoViewComponent implements OnInit {
     }
 
     onBasicSubmitted(basic: NgForm) {
-        console.log('basic', basic);
         this.basicState = AnimatedButtonState.Submitting;
         this.api.doSomething()
             .first()
@@ -27,7 +26,6 @@ export class DemoViewComponent implements OnInit {
     }
 
     onErrorSubmitted(error: NgForm) {
-        console.log('error', error);
         this.errorState = AnimatedButtonState.Submitting;
         this.api.doSomethingStupid()
             .first()

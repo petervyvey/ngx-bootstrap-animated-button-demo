@@ -1,9 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { animatedButtonDefaultSettings, IAnimatedButtonSettings, ICssClasses } from '@components/animated-button/animated-button-settings';
 import { AnimatedButtonState } from '@components/animated-button/animated-button-state';
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject, ReplaySubject, Scheduler } from 'rxjs/Rx';
 
 @Component({
     selector: 'app-component-animated-button',
@@ -55,71 +53,78 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.options$
             .map(options => this.settings = {...animatedButtonDefaultSettings, ...options})
-            .subscribe(
-                settings => {
-                    this.buttonCssClasses['sa-btn-animated'] = true;
-
-                    this.buttonCssClasses['btn'] = true;
-                    this.buttonCssClasses[settings.defaultClass] = true;
-                    this.buttonCssClasses[settings.submittingClass] = false;
-                    this.buttonCssClasses[settings.successClass] = false;
-                    this.buttonCssClasses[settings.errorClass] = false;
-
-                    this.contentCssClasses['flex-row-reverse'] = settings.iconPosition !== 'left';
-                    this.contentCssClasses['flex-row'] = settings.iconPosition === 'left';
-                });
-
-        Observable.combineLatest(this.outerState$, this.innerState$)
-            .takeUntil(this.destroy$)
-            .filter(([outer, inner]) => !!outer && !!inner)
-            .debounceTime(20)
-            .subscribe(([outer, inner]) => {
-                switch (inner) {
-                    case AnimatedButtonState.Default:
-                        this.buttonCssClasses[this.settings.defaultClass] = true;
-                        this.buttonCssClasses[this.settings.submittingClass] = false;
-                        this.buttonCssClasses[this.settings.successClass] = false;
-                        this.buttonCssClasses[this.settings.errorClass] = false;
-                        break;
-
-                    case AnimatedButtonState.Submitting:
-                        this.buttonCssClasses[this.settings.defaultClass] = false;
-                        this.buttonCssClasses[this.settings.submittingClass] = true;
-                        this.buttonCssClasses[this.settings.successClass] = false;
-                        this.buttonCssClasses[this.settings.errorClass] = false;
-                        break;
-
-                    case AnimatedButtonState.Success:
-                        this.buttonCssClasses[this.settings.defaultClass] = false;
-                        this.buttonCssClasses[this.settings.submittingClass] = false;
-                        this.buttonCssClasses[this.settings.successClass] = true;
-                        this.buttonCssClasses[this.settings.errorClass] = false;
-                        break;
-
-                    case AnimatedButtonState.Error:
-                        this.buttonCssClasses[this.settings.defaultClass] = false;
-                        this.buttonCssClasses[this.settings.submittingClass] = false;
-                        this.buttonCssClasses[this.settings.successClass] = false;
-                        this.buttonCssClasses[this.settings.errorClass] = true;
-                        break;
-                }
-            });
+            .subscribe(() => this.applySettings());
 
         this.outerState$
             .takeUntil(this.destroy$)
+            .distinctUntilChanged()
             .filter(x => !!x)
             .subscribe(outer => this.innerState = outer);
 
-        this.innerState$
+        this.outerState$
             .takeUntil(this.destroy$)
-            .filter(inner => inner === AnimatedButtonState.Success || inner === AnimatedButtonState.Error)
-            .throttleTime(2000)
-            .debounceTime(2000)
-            .subscribe(() => this.innerState = AnimatedButtonState.Default);
+            .observeOn(Scheduler.async)
+            .distinctUntilChanged()
+            .filter(outer => !!outer)
+            .switchMap(outer => {
+                if (outer === AnimatedButtonState.Submitting) {
+                    return this.innerState$;
+                } else {
+                    return this.innerState$
+                        .throttleTime(2000)
+                        .debounceTime(2000)
+                        .do(() => this.innerState = AnimatedButtonState.Default);
+                }
+            })
+            .subscribe(() => this.applyStyle());
     }
 
     ngOnDestroy(): void {
         this.destroy$.next(true);
     }
 
+    private applySettings() {
+        this.buttonCssClasses['sa-btn-animated'] = true;
+
+        this.buttonCssClasses['btn'] = true;
+        this.buttonCssClasses[this.settings.defaultClass] = true;
+        this.buttonCssClasses[this.settings.submittingClass] = false;
+        this.buttonCssClasses[this.settings.successClass] = false;
+        this.buttonCssClasses[this.settings.errorClass] = false;
+
+        this.contentCssClasses['flex-row-reverse'] = this.settings.iconPosition !== 'left';
+        this.contentCssClasses['flex-row'] = this.settings.iconPosition === 'left';
+    }
+
+    private applyStyle() {
+        switch (this.innerState) {
+            case AnimatedButtonState.Default:
+                this.buttonCssClasses[this.settings.defaultClass] = true;
+                this.buttonCssClasses[this.settings.submittingClass] = false;
+                this.buttonCssClasses[this.settings.successClass] = false;
+                this.buttonCssClasses[this.settings.errorClass] = false;
+                break;
+
+            case AnimatedButtonState.Submitting:
+                this.buttonCssClasses[this.settings.defaultClass] = false;
+                this.buttonCssClasses[this.settings.submittingClass] = true;
+                this.buttonCssClasses[this.settings.successClass] = false;
+                this.buttonCssClasses[this.settings.errorClass] = false;
+                break;
+
+            case AnimatedButtonState.Success:
+                this.buttonCssClasses[this.settings.defaultClass] = false;
+                this.buttonCssClasses[this.settings.submittingClass] = false;
+                this.buttonCssClasses[this.settings.successClass] = true;
+                this.buttonCssClasses[this.settings.errorClass] = false;
+                break;
+
+            case AnimatedButtonState.Error:
+                this.buttonCssClasses[this.settings.defaultClass] = false;
+                this.buttonCssClasses[this.settings.submittingClass] = false;
+                this.buttonCssClasses[this.settings.successClass] = false;
+                this.buttonCssClasses[this.settings.errorClass] = true;
+                break;
+        }
+    }
 }
