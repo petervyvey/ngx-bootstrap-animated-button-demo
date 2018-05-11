@@ -66,7 +66,9 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
                 switch (outer) {
                     case AnimatedButtonState.Success:
                     case AnimatedButtonState.Error:
-                        return Observable.of(outer).delay(this.settings.submittingTimeOut);
+                        return Observable
+                            .of(outer)
+                            .delay(this.settings.submittingTimeOut);
 
                     default:
                         return Observable.of(outer);
@@ -79,17 +81,23 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
             .observeOn(Scheduler.async)
             .distinctUntilChanged()
             .filter(inner => !!inner)
-            .switchMap(outer => {
-                if (outer === AnimatedButtonState.Submitting) {
-                    return this.innerState$;
-                } else {
-                    return this.innerState$
-                        .throttleTime(this.settings.completedTimeOut)
-                        .debounceTime(this.settings.completedTimeOut)
-                        .do(() => this.innerState = AnimatedButtonState.Default);
+            .switchMap(inner => {
+                switch (inner) {
+                    case AnimatedButtonState.Success:
+                    case AnimatedButtonState.Error:
+                        return Observable
+                            .of(inner)
+                            .do(current => this.applyStyle(current))
+                            .delay(this.settings.completedTimeOut)
+                            .do(() => this.innerState = AnimatedButtonState.Default);
+
+                    default:
+                        return Observable
+                            .of(inner)
+                            .do(current => this.applyStyle(current));
                 }
             })
-            .subscribe(() => this.applyStyle());
+            .subscribe();
     }
 
     ngOnDestroy(): void {
@@ -109,8 +117,8 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
         this.contentCssClasses['flex-row'] = this.settings.iconPosition === 'left';
     }
 
-    private applyStyle() {
-        switch (this.innerState) {
+    private applyStyle(innerState: AnimatedButtonState) {
+        switch (innerState) {
             case AnimatedButtonState.Default:
                 this.buttonCssClasses[this.settings.defaultClass] = true;
                 this.buttonCssClasses[this.settings.submittingClass] = false;
