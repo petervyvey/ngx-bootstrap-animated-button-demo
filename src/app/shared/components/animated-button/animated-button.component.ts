@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { animatedButtonDefaultSettings, IAnimatedButtonSettings, ICssClasses } from '@components/animated-button/animated-button-settings';
 import { AnimatedButtonState } from '@components/animated-button/animated-button-state';
-import { BehaviorSubject, ReplaySubject, Scheduler } from 'rxjs/Rx';
+import { BehaviorSubject, ReplaySubject, Scheduler, Observable } from 'rxjs/Rx';
 
 @Component({
     selector: 'app-component-animated-button',
@@ -52,27 +52,36 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.options$
+            .takeUntil(this.destroy$)
             .map(options => this.settings = {...animatedButtonDefaultSettings, ...options})
             .subscribe(() => this.applySettings());
 
         this.outerState$
             .takeUntil(this.destroy$)
-            .distinctUntilChanged()
-            .filter(x => !!x)
+            .switchMap(outer => {
+                switch (outer) {
+                    case AnimatedButtonState.Success:
+                    case AnimatedButtonState.Error:
+                        return Observable.of(outer).delay(this.settings.submittingTimeOut);
+
+                    default:
+                        return Observable.of(outer);
+                }
+            })
             .subscribe(outer => this.innerState = outer);
 
-        this.outerState$
+        this.innerState$
             .takeUntil(this.destroy$)
             .observeOn(Scheduler.async)
             .distinctUntilChanged()
-            .filter(outer => !!outer)
+            .filter(inner => !!inner)
             .switchMap(outer => {
                 if (outer === AnimatedButtonState.Submitting) {
                     return this.innerState$;
                 } else {
                     return this.innerState$
-                        .throttleTime(2000)
-                        .debounceTime(2000)
+                        .throttleTime(this.settings.completedTimeOut)
+                        .debounceTime(this.settings.completedTimeOut)
                         .do(() => this.innerState = AnimatedButtonState.Default);
                 }
             })

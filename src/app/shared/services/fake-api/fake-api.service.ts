@@ -9,7 +9,7 @@ export class FakeApiService {
     doSomething(): Observable<boolean> {
         return Observable
             .of(true)
-            .delay(3000);
+            .delay(20);
     }
 
     doSomethingStupid(): Observable<any> {

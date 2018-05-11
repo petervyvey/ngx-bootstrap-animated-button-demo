@@ -4,6 +4,8 @@ export interface IAnimatedButtonSettings {
     submittingClass: string;
     successClass: string;
     errorClass: string;
+    submittingTimeOut: number;
+    completedTimeOut: number;
 }
 
 export const animatedButtonDefaultSettings: IAnimatedButtonSettings = {
@@ -11,7 +13,9 @@ export const animatedButtonDefaultSettings: IAnimatedButtonSettings = {
     submittingClass: 'btn-info',
     successClass: 'btn-success',
     errorClass: 'btn-danger',
-    iconPosition: 'left'
+    iconPosition: 'left',
+    submittingTimeOut: 800,
+    completedTimeOut: 2000
 };
 
 export interface ICssClasses {
