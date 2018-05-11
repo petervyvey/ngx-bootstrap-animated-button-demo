@@ -26,4 +26,26 @@
         </div>
         <div class="col-sm"></div>
     </div>
+    <div class="row" style="padding-top:20px;">
+        <div class="col-sm">
+            <form #validation="ngForm" (submit)="onValidationSubmitted(validation)">
+                <div class="form-group">
+                    <label for="formRequiredField">Required field + min length 2</label>
+                    <input type="text" class="form-control" id="formRequiredField" name="formRequiredField" autocomplete="off" placeholder="Enter your name" required minlength="2" [(ngModel)]="requiredField" #formRequiredField="ngModel">
+                    <div *ngIf="formRequiredField.invalid && (formRequiredField.dirty || formRequiredField.touched)">
+                        <div *ngIf="formRequiredField.errors.required" class="pt-2">
+                            This is a required field.
+                        </div>
+                        <div *ngIf="formRequiredField.errors.minlength" class="pt-2">
+                            Minimum length is 2 chars.
+                        </div>
+                    </div>
+                </div>
+                <app-component-animated-button [state]="validationState" [disabled]="validation.invalid" [options]="{defaultClass: 'btn-primary', iconPosition: 'left'}">
+                    Validation
+                </app-component-animated-button>
+            </form>
+        </div>
+        <div class="col-sm"></div>
+    </div>
 </div>

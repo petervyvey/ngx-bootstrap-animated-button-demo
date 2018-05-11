@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { animatedButtonDefaultSettings, IAnimatedButtonSettings, ICssClasses } from '@components/animated-button/animated-button-settings';
 import { AnimatedButtonState } from '@components/animated-button/animated-button-state';
-import { BehaviorSubject, ReplaySubject, Scheduler, Observable } from 'rxjs/Rx';
+import { BehaviorSubject, Observable, ReplaySubject, Scheduler } from 'rxjs/Rx';
 
 @Component({
     selector: 'app-component-animated-button',
@@ -24,6 +24,7 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
     public submittingText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_SUBMITTING_TEXT);
     public successText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_SUCCESS_TEXT);
     public errorText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_ERROR_TEXT);
+    public disabled$ = new BehaviorSubject<boolean>(false);
 
     private destroy$ = new ReplaySubject<boolean>();
     private options$ = new BehaviorSubject<Partial<IAnimatedButtonSettings>>({});
@@ -43,6 +44,9 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
 
     @Input()
     set errorText(value: string) { this.errorText$.next(value); }
+
+    @Input()
+    set disabled(value: boolean) { this.disabled$.next(value); }
 
     get innerState(): AnimatedButtonState {return this.innerState$.value;}
     set innerState(value: AnimatedButtonState) { this.innerState$.next(value); }

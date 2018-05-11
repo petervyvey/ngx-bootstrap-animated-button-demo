@@ -1,4 +1,4 @@
-<button [ngClass]="buttonCssClasses" [disabled]="(innerState$ | async) == 'SUBMITTING'">
+<button [ngClass]="buttonCssClasses" [disabled]="(disabled$ | async) || ((innerState$ | async) == 'SUBMITTING')">
     <div class="d-flex" [ngClass]="contentCssClasses">
         <ng-container *ngIf="(innerState$ | async) == 'SUBMITTING'">
             <div class="px-2">
