@@ -102,6 +102,7 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.destroy$.next(true);
+        this.destroy$.complete();
     }
 
     private applySettings() {
