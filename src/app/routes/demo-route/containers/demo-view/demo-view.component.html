@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-sm">
             <form #basic="ngForm" (submit)="onBasicSubmitted(basic)">
-                <app-component-animated-button [state]="basicState" [options]="{defaultClass: 'btn-primary', iconPosition: 'left', submittingTimeOut: 900}">
+                <app-component-animated-button [state]="basicState" [options]="options">
                     Submit
                 </app-component-animated-button>
             </form>

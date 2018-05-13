@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { animatedButtonDefaultSettings, IAnimatedButtonSettings, ICssClasses } from '@components/animated-button/animated-button-settings';
 import { AnimatedButtonState } from '@components/animated-button/animated-button-state';
 import { BehaviorSubject, Observable, ReplaySubject, Scheduler } from 'rxjs/Rx';
@@ -47,6 +47,9 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
 
     @Input()
     set disabled(value: boolean) { this.disabled$.next(value); }
+
+    @Output()
+    clicked = new EventEmitter<MouseEvent>();
 
     get innerState(): AnimatedButtonState {return this.innerState$.value;}
     set innerState(value: AnimatedButtonState) { this.innerState$.next(value); }
@@ -103,6 +106,13 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.destroy$.next(true);
         this.destroy$.complete();
+    }
+
+    onClicked(event: MouseEvent) {
+        event.stopPropagation();
+        if (this.disabled$.value !== true) {
+            this.clicked.emit(event);
+        }
     }
 
     private applySettings() {

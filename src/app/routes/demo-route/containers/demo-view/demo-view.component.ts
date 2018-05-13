@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
+import { NgForm } from '@angular/forms';
+import { IAnimatedButtonSettings } from '@components/animated-button/animated-button-settings';
 import { AnimatedButtonState } from '@components/animated-button/animated-button-state';
 import { FakeApiService } from '@services/fake-api/fake-api.service';
 
@@ -11,6 +12,10 @@ import { FakeApiService } from '@services/fake-api/fake-api.service';
 export class DemoViewComponent implements OnInit {
 
     constructor(private api: FakeApiService) { }
+
+    options: Partial<IAnimatedButtonSettings> = {
+        completedTimeOut: 2000
+    };
 
     basicState = AnimatedButtonState.Default;
     errorState = AnimatedButtonState.Default;

@@ -14,7 +14,7 @@ export const animatedButtonDefaultSettings: IAnimatedButtonSettings = {
     successClass: 'btn-success',
     errorClass: 'btn-danger',
     iconPosition: 'left',
-    submittingTimeOut: 800,
+    submittingTimeOut: 900,
     completedTimeOut: 2000
 };
 
