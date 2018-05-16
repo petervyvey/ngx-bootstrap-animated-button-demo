@@ -47,6 +47,15 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
 
     @Input()
     set disabled(value: boolean) { this.disabled$.next(value); }
+    get disabled(): boolean {
+        let disabled = false;
+        if (this.settings.enabledOnSuccess) {
+            disabled = [AnimatedButtonState.Submitting].indexOf(this.innerState) > -1;
+        } else {
+            disabled = [AnimatedButtonState.Submitting, AnimatedButtonState.Success, AnimatedButtonState.Error].indexOf(this.innerState) > -1;
+        }
+        return this.disabled$.value || disabled;
+    }
 
     @Output()
     clicked = new EventEmitter<MouseEvent>();
@@ -92,7 +101,11 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
                             .of(inner)
                             .do(current => this.applyStyle(current))
                             .delay(this.settings.completedTimeOut)
-                            .do(() => this.innerState = AnimatedButtonState.Default);
+                            .do(() => {
+                                if (this.settings.returnToDefaultState) {
+                                    this.innerState = AnimatedButtonState.Default;
+                                }
+                            });
 
                     default:
                         return Observable

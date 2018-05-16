@@ -14,7 +14,9 @@ export class DemoViewComponent implements OnInit {
     constructor(private api: FakeApiService) { }
 
     options: Partial<IAnimatedButtonSettings> = {
-        completedTimeOut: 2000
+        completedTimeOut: 1000,
+        returnToDefaultState: true,
+        enabledOnSuccess: false
     };
 
     basicState = AnimatedButtonState.Default;
