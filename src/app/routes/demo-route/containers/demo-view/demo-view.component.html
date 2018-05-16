@@ -8,7 +8,6 @@
     </div>
     <div class="row">
         <div class="col-sm">
-            {{ options | json }}
             <form #basic="ngForm" (submit)="onBasicSubmitted(basic)">
                 <app-component-animated-button [state]="basicState" [options]="options">
                     Submit
