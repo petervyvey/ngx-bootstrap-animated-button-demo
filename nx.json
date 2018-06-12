@@ -1,0 +1,11 @@
+{
+  "npmScope": "ngx-bootstrap-animated-button",
+  "projects": {
+    "demo": {
+      "tags": []
+    },
+    "ngx-bootstrap-animated-button": {
+      "tags": []
+    }
+  }
+}

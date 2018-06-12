@@ -1,7 +1,6 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "outDir": "./dist/out-tsc",
         "sourceMap": true,
         "declaration": false,
         "moduleResolution": "node",
@@ -15,35 +14,21 @@
             "es2017",
             "dom"
         ],
-        "baseUrl": "src",
+        "baseUrl": ".",
         "paths": {
-            "@environments/*": [
-                "environments/*"
+            "@demo/*": [
+                "apps/demo/src/app/*"
             ],
-            "@core/*": [
-                "app/core/*"
+            "@ngx-bootstrap-animated-button/*": [
+                "libs/*"
             ],
-            "@state/*": [
-                "app/state/*"
-            ],
-            "@components/*": [
-                "app/shared/components/*"
-            ],
-            "@containers/*": [
-                "app/shared/containers/*"
-            ],
-            "@models/*": [
-                "app/shared/models/*"
-            ],
-            "@directives/*": [
-                "app/shared/directives/*"
-            ],
-            "@services/*": [
-                "app/shared/services/*"
-            ],
-            "@routes/*": [
-                "app/routes/*"
+            "@ngx-bootstrap-animated-button/ngx-bootstrap-animated-button": [
+                "libs/ngx-bootstrap-animated-button/src/index.ts"
             ]
         }
-    }
+    },
+    "exclude": [
+        "node_modules",
+        "tmp"
+    ]
 }
