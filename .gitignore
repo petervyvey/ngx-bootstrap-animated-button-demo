@@ -9,6 +9,7 @@
 
 # IDE - VSCode
 .vscode
+.angulardoc.json
 
 # compiled output
 /dist
