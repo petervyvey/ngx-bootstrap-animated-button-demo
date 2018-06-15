@@ -1,14 +1,16 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject, Scheduler } from 'rxjs/Rx';
-import { AnimatedButtonState } from "@demo/shared/components/animated-button/animated-button-state";
 import {
     animatedButtonDefaultSettings,
     IAnimatedButtonSettings,
     ICssClasses
-} from "@demo/shared/components/animated-button/animated-button-settings";
+} from "@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-settings";
+import { AnimatedButtonState } from "@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-state";
+import { of } from "rxjs/internal/observable/of";
+import { delay, distinctUntilChanged, filter, map, observeOn, switchMap, takeUntil, tap } from "rxjs/operators";
+import { asyncScheduler, BehaviorSubject, ReplaySubject } from "rxjs/index";
 
 @Component({
-    selector: 'app-component-animated-button',
+    selector: 'msq-component-animated-button',
     templateUrl: './animated-button.component.html',
     styleUrls: ['./animated-button.component.scss']
 })
@@ -96,51 +98,61 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.options$
-            .takeUntil(this.destroy$)
-            .map(options => this.settings = {...animatedButtonDefaultSettings, ...options})
+            .pipe(
+                takeUntil(this.destroy$),
+                map(options => this.settings = {...animatedButtonDefaultSettings, ...options})
+            )
             .subscribe(() => this.applySettings());
 
         this.outerState$
-            .takeUntil(this.destroy$)
-            .switchMap(outer => {
-                switch (outer) {
-                    case AnimatedButtonState.Success:
-                    case AnimatedButtonState.Error:
-                        return Observable
-                            .of(outer)
-                            .delay(this.settings.submittingTimeOut);
+            .pipe(
+                takeUntil(this.destroy$),
+                switchMap(outer => {
+                    switch (outer) {
+                        case AnimatedButtonState.Success:
+                        case AnimatedButtonState.Error:
+                            return of(outer)
+                                .pipe(
+                                    delay(this.settings.submittingTimeOut)
+                                );
 
-                    default:
-                        return Observable.of(outer);
-                }
-            })
+                        default:
+                            return of(outer);
+                    }
+                })
+            )
             .subscribe(outer => this.innerState = outer);
 
         this.innerState$
-            .takeUntil(this.destroy$)
-            .observeOn(Scheduler.async)
-            .distinctUntilChanged()
-            .filter(inner => !!inner)
-            .switchMap(inner => {
-                switch (inner) {
-                    case AnimatedButtonState.Success:
-                    case AnimatedButtonState.Error:
-                        return Observable
-                            .of(inner)
-                            .do(current => this.applyStyle(current))
-                            .delay(this.settings.completedTimeOut)
-                            .do(() => {
-                                if (this.settings.returnToDefaultState) {
-                                    this.innerState = AnimatedButtonState.Default;
-                                }
-                            });
+            .pipe(
+                takeUntil(this.destroy$),
+                observeOn(asyncScheduler),
+                distinctUntilChanged(),
+                filter(inner => !!inner),
+                switchMap(inner => {
+                        switch (inner) {
+                            case AnimatedButtonState.Success:
+                            case AnimatedButtonState.Error:
+                                return of(inner)
+                                    .pipe(
+                                        tap(current => this.applyStyle(current)),
+                                        delay(this.settings.completedTimeOut),
+                                        tap(() => {
+                                            if (this.settings.returnToDefaultState) {
+                                                this.innerState = AnimatedButtonState.Default;
+                                            }
+                                        })
+                                    );
 
-                    default:
-                        return Observable
-                            .of(inner)
-                            .do(current => this.applyStyle(current));
-                }
-            })
+                            default:
+                                return of(inner)
+                                    .pipe(
+                                        tap(current => this.applyStyle(current))
+                                    );
+                        }
+                    }
+                )
+            )
             .subscribe();
     }
 

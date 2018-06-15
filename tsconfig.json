@@ -19,11 +19,11 @@
             "@demo/*": [
                 "apps/demo/src/app/*"
             ],
-            "@ngx-bootstrap-animated-button/*": [
-                "libs/*"
-            ],
             "@ngx-bootstrap-animated-button/ngx-bootstrap-animated-button": [
                 "libs/ngx-bootstrap-animated-button/src/index.ts"
+            ],
+            "@ngx-bootstrap-animated-button/*": [
+                "libs/ngx-bootstrap-animated-button/*"
             ]
         }
     },

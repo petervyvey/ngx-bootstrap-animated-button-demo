@@ -1,6 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AnimatedButtonModule } from "./shared/components/animated-button/animated-button.module";
+
 @NgModule({
-    imports: [CommonModule]
+    imports: [
+        CommonModule,
+        AnimatedButtonModule
+    ]
 })
-export class NgxBootstrapAnimatedButtonModule {}
+export class NgxBootstrapAnimatedButtonModule {
+}
+

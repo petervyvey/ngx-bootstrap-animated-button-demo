@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { of } from "rxjs/internal/observable/of";
+import { throwError } from "rxjs/internal/observable/throwError";
+import { delay, switchMap } from "rxjs/operators";
+import { Observable } from "rxjs/internal/Observable";
 
 @Injectable()
 export class FakeApiService {
 
-    constructor() { }
+    constructor() {
+    }
 
     doSomething(): Observable<boolean> {
-        return Observable
-            .of(true)
-            .delay(20);
+        return of(true)
+            .pipe(
+                delay(20)
+            );
     }
 
     doSomethingStupid(): Observable<any> {
-        return Observable
-            .of(null)
-            .delay(3000)
-            .switchMap(() => Observable.throw('Something went wrong'));
+        return of(null)
+            .pipe(
+                delay(3000),
+                switchMap(() => throwError('Something went wrong'))
+            );
     }
 
 }

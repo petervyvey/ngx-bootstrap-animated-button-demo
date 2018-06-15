@@ -9,9 +9,9 @@
     <div class="row">
         <div class="col-sm">
             <form #basic="ngForm" (submit)="onBasicSubmitted(basic)">
-                <app-component-animated-button [state]="basicState" [options]="options">
+                <msq-component-animated-button [state]="basicState" [options]="options">
                     Submit
-                </app-component-animated-button>
+                </msq-component-animated-button>
             </form>
         </div>
         <div class="col-sm"></div>
@@ -19,9 +19,9 @@
     <div class="row" style="padding-top:20px;">
         <div class="col-sm">
             <form #error="ngForm" (submit)="onErrorSubmitted(error)">
-                <app-component-animated-button [state]="errorState" [options]="{defaultClass: 'btn-default', iconPosition: 'left'}">
+                <msq-component-animated-button [state]="errorState" [options]="{defaultClass: 'btn-default', iconPosition: 'left'}">
                     Wrong
-                </app-component-animated-button>
+                </msq-component-animated-button>
             </form>
         </div>
         <div class="col-sm"></div>
@@ -41,9 +41,9 @@
                         </div>
                     </div>
                 </div>
-                <app-component-animated-button [state]="validationState" [disabled]="validation.invalid" [options]="{defaultClass: 'btn-primary', iconPosition: 'left'}">
+                <msq-component-animated-button [state]="validationState" [disabled]="validation.invalid" [options]="{defaultClass: 'btn-primary', iconPosition: 'left'}">
                     Validation
-                </app-component-animated-button>
+                </msq-component-animated-button>
             </form>
         </div>
         <div class="col-sm"></div>

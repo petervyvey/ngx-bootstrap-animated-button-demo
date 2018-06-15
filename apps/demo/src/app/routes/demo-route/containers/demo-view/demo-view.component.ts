@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FakeApiService } from "@demo/shared/services/fake-api/fake-api.service";
-import { IAnimatedButtonSettings } from "@demo/shared/components/animated-button/animated-button-settings";
-import { AnimatedButtonState } from "@demo/shared/components/animated-button/animated-button-state";
+import { first } from "rxjs/operators";
+import { IAnimatedButtonSettings } from "@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-settings";
+import { AnimatedButtonState } from "@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-state";
+
 
 @Component({
     selector: 'app-demo-view',
@@ -32,14 +34,18 @@ export class DemoViewComponent implements OnInit {
     onBasicSubmitted(basic: NgForm) {
         this.basicState = AnimatedButtonState.Submitting;
         this.api.doSomething()
-            .first()
+            .pipe(
+                first()
+            )
             .subscribe(() => this.basicState = AnimatedButtonState.Success);
     }
 
     onErrorSubmitted(error: NgForm) {
         this.errorState = AnimatedButtonState.Submitting;
         this.api.doSomethingStupid()
-            .first()
+            .pipe(
+                first()
+            )
             .subscribe(
                 () => this.errorState = AnimatedButtonState.Success,
                 () => this.errorState = AnimatedButtonState.Error
@@ -49,7 +55,9 @@ export class DemoViewComponent implements OnInit {
     onValidationSubmitted(validation: NgForm) {
         this.validationState = AnimatedButtonState.Submitting;
         this.api.doSomething()
-            .first()
+            .pipe(
+                first()
+            )
             .subscribe(() => this.validationState = AnimatedButtonState.Success);
     }
 
