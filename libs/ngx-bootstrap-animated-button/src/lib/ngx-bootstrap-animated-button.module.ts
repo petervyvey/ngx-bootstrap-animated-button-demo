@@ -1,6 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { animatedButtonDefaultSettings, IAnimatedButtonSettings, ICssClasses } from './shared/components/animated-button/animated-button-settings';
+import { AnimatedButtonState } from './shared/components/animated-button/animated-button-state';
 import { AnimatedButtonModule } from './shared/components/animated-button/animated-button.module';
+
 
 @NgModule({
     imports: [
@@ -8,6 +11,8 @@ import { AnimatedButtonModule } from './shared/components/animated-button/animat
         AnimatedButtonModule
     ]
 })
-export class NgxBootstrapAnimatedButtonModule {
-}
+export class NgxBootstrapAnimatedButtonModule {}
+
+export { animatedButtonDefaultSettings, IAnimatedButtonSettings, ICssClasses };
+export { AnimatedButtonState };
 

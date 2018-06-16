@@ -18,5 +18,4 @@ import { AnimatedButtonModule } from '@ngx-bootstrap-animated-button/src/lib/sha
         FakeApiService
     ]
 })
-export class DemoViewModule {
-}
+export class DemoViewModule {}

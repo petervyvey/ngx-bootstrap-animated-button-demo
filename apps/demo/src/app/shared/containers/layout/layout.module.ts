@@ -1,7 +1,7 @@
-import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
-import {LayoutComponent} from './layout.component';
-import {NavigationModule} from '@demo/shared/containers/navigation/navigation.module';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { NavigationModule } from '@demo/shared/containers/navigation/navigation.module';
+import { LayoutComponent } from './layout.component';
 
 @NgModule({
     imports: [
@@ -16,5 +16,4 @@ import {NavigationModule} from '@demo/shared/containers/navigation/navigation.mo
         LayoutComponent
     ]
 })
-export class LayoutModule {
-}
+export class LayoutModule {}

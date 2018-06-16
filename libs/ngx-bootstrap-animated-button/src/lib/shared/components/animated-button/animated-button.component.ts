@@ -22,12 +22,12 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
     buttonCssClasses: ICssClasses = {};
     contentCssClasses: ICssClasses = {};
 
-    public outerState$ = new BehaviorSubject<AnimatedButtonState>(AnimatedButtonState.Default);
-    public innerState$ = new BehaviorSubject<AnimatedButtonState>(AnimatedButtonState.Default);
-    public submittingText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_SUBMITTING_TEXT);
-    public successText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_SUCCESS_TEXT);
-    public errorText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_ERROR_TEXT);
-    public disabled$ = new BehaviorSubject<boolean>(false);
+    outerState$ = new BehaviorSubject<AnimatedButtonState>(AnimatedButtonState.Default);
+    innerState$ = new BehaviorSubject<AnimatedButtonState>(AnimatedButtonState.Default);
+    submittingText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_SUBMITTING_TEXT);
+    successText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_SUCCESS_TEXT);
+    errorText$ = new BehaviorSubject<string>(AnimatedButtonComponent.DEFAULT_ERROR_TEXT);
+    disabled$ = new BehaviorSubject<boolean>(false);
 
     private destroy$ = new ReplaySubject<boolean>();
     private options$ = new BehaviorSubject<Partial<IAnimatedButtonSettings>>({});

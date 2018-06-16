@@ -13,8 +13,7 @@ import { AnimatedButtonState } from '@ngx-bootstrap-animated-button/src/lib/shar
 })
 export class DemoViewComponent implements OnInit {
 
-    constructor(private api: FakeApiService) {
-    }
+    constructor(private api: FakeApiService) { }
 
     options: Partial<IAnimatedButtonSettings> = {
         completedTimeOut: 1000,
@@ -28,8 +27,7 @@ export class DemoViewComponent implements OnInit {
 
     requiredField: string;
 
-    ngOnInit() {
-    }
+    ngOnInit() { }
 
     onBasicSubmitted(basic: NgForm) {
         this.basicState = AnimatedButtonState.Submitting;

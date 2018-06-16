@@ -43,7 +43,8 @@
         300
     ],
     "member-access": [
-        false
+        true,
+        "no-public"
     ],
     "member-ordering": [
         true,

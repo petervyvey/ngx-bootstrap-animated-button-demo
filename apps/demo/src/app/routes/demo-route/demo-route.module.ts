@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { DemoRouteRoutingModule } from './demo-route-routing.module';
 import { DemoViewModule } from '@demo/routes/demo-route/containers/demo-view/demo-view.module';
+import { DemoRouteRoutingModule } from './demo-route-routing.module';
 
 @NgModule({
     imports: [
@@ -10,5 +10,4 @@ import { DemoViewModule } from '@demo/routes/demo-route/containers/demo-view/dem
         DemoRouteRoutingModule
     ]
 })
-export class DemoRouteModule {
-}
+export class DemoRouteModule {}
