@@ -1,13 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import {
-    animatedButtonDefaultSettings,
-    IAnimatedButtonSettings,
-    ICssClasses
-} from "@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-settings";
-import { AnimatedButtonState } from "@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-state";
-import { of } from "rxjs/internal/observable/of";
-import { delay, distinctUntilChanged, filter, map, observeOn, switchMap, takeUntil, tap } from "rxjs/operators";
-import { asyncScheduler, BehaviorSubject, ReplaySubject } from "rxjs/index";
+import { animatedButtonDefaultSettings, IAnimatedButtonSettings, ICssClasses } from '@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-settings';
+import { AnimatedButtonState } from '@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-state';
+import { asyncScheduler, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
+import { delay, distinctUntilChanged, filter, map, observeOn, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'msq-component-animated-button',

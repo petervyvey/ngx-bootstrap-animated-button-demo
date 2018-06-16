@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {LayoutComponent} from './layout.component';
-import {NavigationModule} from "@demo/shared/containers/navigation/navigation.module";
+import {NavigationModule} from '@demo/shared/containers/navigation/navigation.module';
 
 @NgModule({
     imports: [

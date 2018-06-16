@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { FakeApiService } from "@demo/shared/services/fake-api/fake-api.service";
-import { first } from "rxjs/operators";
-import { IAnimatedButtonSettings } from "@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-settings";
-import { AnimatedButtonState } from "@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-state";
+import { FakeApiService } from '@demo/shared/services/fake-api/fake-api.service';
+import { first } from 'rxjs/operators';
+import { IAnimatedButtonSettings } from '@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-settings';
+import { AnimatedButtonState } from '@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-state';
 
 
 @Component({
