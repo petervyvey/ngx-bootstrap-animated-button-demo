@@ -96,9 +96,11 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
         this.options$
             .pipe(
                 takeUntil(this.destroy$),
-                map(options => this.settings = {...animatedButtonDefaultSettings, ...options})
+                tap(options => this.settings = { ...animatedButtonDefaultSettings, ...options }),
             )
-            .subscribe(() => this.applySettings());
+            .subscribe(() => {
+                this.applySettings();
+            });
 
         this.outerState$
             .pipe(
@@ -165,13 +167,15 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
     }
 
     private applySettings() {
+        this.buttonCssClasses = {};
+
         this.buttonCssClasses['sa-btn-animated'] = true;
 
         this.buttonCssClasses['btn'] = true;
-        this.buttonCssClasses[this.settings.defaultClass] = true;
         this.buttonCssClasses[this.settings.submittingClass] = false;
         this.buttonCssClasses[this.settings.successClass] = false;
         this.buttonCssClasses[this.settings.errorClass] = false;
+        this.buttonCssClasses[this.settings.defaultClass] = true;
 
         this.contentCssClasses['flex-row-reverse'] = this.settings.iconPosition !== 'left';
         this.contentCssClasses['flex-row'] = this.settings.iconPosition === 'left';
@@ -180,24 +184,24 @@ export class AnimatedButtonComponent implements OnInit, OnDestroy {
     private applyStyle(innerState: AnimatedButtonState) {
         switch (innerState) {
             case AnimatedButtonState.Default:
-                this.buttonCssClasses[this.settings.defaultClass] = true;
                 this.buttonCssClasses[this.settings.submittingClass] = false;
                 this.buttonCssClasses[this.settings.successClass] = false;
                 this.buttonCssClasses[this.settings.errorClass] = false;
+                this.buttonCssClasses[this.settings.defaultClass] = true;
                 break;
 
             case AnimatedButtonState.Submitting:
                 this.buttonCssClasses[this.settings.defaultClass] = false;
-                this.buttonCssClasses[this.settings.submittingClass] = true;
                 this.buttonCssClasses[this.settings.successClass] = false;
                 this.buttonCssClasses[this.settings.errorClass] = false;
+                this.buttonCssClasses[this.settings.submittingClass] = true;
                 break;
 
             case AnimatedButtonState.Success:
                 this.buttonCssClasses[this.settings.defaultClass] = false;
                 this.buttonCssClasses[this.settings.submittingClass] = false;
-                this.buttonCssClasses[this.settings.successClass] = true;
                 this.buttonCssClasses[this.settings.errorClass] = false;
+                this.buttonCssClasses[this.settings.successClass] = true;
                 break;
 
             case AnimatedButtonState.Error:

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { FakeApiService } from '@demo/shared/services/fake-api/fake-api.service';
-import { first } from 'rxjs/operators';
 import { IAnimatedButtonSettings } from '@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-settings';
 import { AnimatedButtonState } from '@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-state';
+import { first } from 'rxjs/operators';
 
 
 @Component({
@@ -27,7 +27,27 @@ export class DemoViewComponent implements OnInit {
 
     requiredField: string;
 
-    ngOnInit() { }
+    settingsFormGroup: FormGroup;
+
+    ngOnInit() {
+        this.settingsFormGroup = new FormGroup({
+            defaultClass: new FormControl('btn-primary'),
+            submittingClass: new FormControl('btn-info'),
+            successClass: new FormControl('btn-success'),
+            errorClass: new FormControl('btn-danger'),
+            iconPosition: new FormControl('left'),
+            enabledOnSuccess: new FormControl(true),
+            returnToDefaultState: new FormControl(true)
+        });
+    }
+
+
+    onSettingsSubmit({ value, valid }: { value: any, valid: boolean }) {
+        this.options = {
+            ...this.options,
+            ...value
+        };
+    }
 
     onBasicSubmitted(basic: NgForm) {
         this.basicState = AnimatedButtonState.Submitting;

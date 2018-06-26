@@ -1,51 +1,142 @@
 <div class="container">
     <div class="row">
-        <div class="col-sm">
-            <p>
-                Demo of Angular + Bootstrap animated buttons
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <form #basic="ngForm" (submit)="onBasicSubmitted(basic)">
-                <msq-component-animated-button [state]="basicState" [options]="options">
-                    Submit
-                </msq-component-animated-button>
-            </form>
-        </div>
-        <div class="col-sm"></div>
-    </div>
-    <div class="row" style="padding-top:20px;">
-        <div class="col-sm">
-            <form #error="ngForm" (submit)="onErrorSubmitted(error)">
-                <msq-component-animated-button [state]="errorState" [options]="{defaultClass: 'btn-default', iconPosition: 'left'}">
-                    Wrong
-                </msq-component-animated-button>
-            </form>
-        </div>
-        <div class="col-sm"></div>
-    </div>
-    <div class="row" style="padding-top:20px;">
-        <div class="col-sm">
-            <form #validation="ngForm" (submit)="onValidationSubmitted(validation)">
-                <div class="form-group">
-                    <label for="formRequiredField">Required field + min length 2</label>
-                    <input type="text" class="form-control" id="formRequiredField" name="formRequiredField" autocomplete="off" placeholder="Enter your name" required minlength="2" [(ngModel)]="requiredField" #formRequiredField="ngModel">
-                    <div *ngIf="formRequiredField.invalid && (formRequiredField.dirty || formRequiredField.touched)">
-                        <div *ngIf="formRequiredField.errors.required" class="pt-2">
-                            This is a required field.
-                        </div>
-                        <div *ngIf="formRequiredField.errors.minlength" class="pt-2">
-                            Minimum length is 2 chars.
-                        </div>
-                    </div>
+        <div class="col">
+            <div class="row">
+                <div class="col-sm">
+                    <h3>
+                        Demo
+                    </h3>
                 </div>
-                <msq-component-animated-button [state]="validationState" [disabled]="validation.invalid" [options]="{defaultClass: 'btn-primary', iconPosition: 'left'}">
-                    Validation
-                </msq-component-animated-button>
-            </form>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <form #basic="ngForm" (submit)="onBasicSubmitted(basic)">
+                        <msq-component-animated-button [state]="basicState" [options]="options">
+                            Submit
+                        </msq-component-animated-button>
+                    </form>
+                </div>
+                <div class="col-sm"></div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-sm">
+                    <form #error="ngForm" (submit)="onErrorSubmitted(error)">
+                        <msq-component-animated-button [state]="errorState"
+                                                       [options]="options">
+                            Wrong
+                        </msq-component-animated-button>
+                    </form>
+                </div>
+                <div class="col-sm"></div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-sm">
+                    <form #validation="ngForm" (submit)="onValidationSubmitted(validation)">
+                        <div class="form-group">
+                            <label for="formRequiredField">Required field + min length 2</label>
+                            <input type="text" class="form-control" id="formRequiredField" name="formRequiredField"
+                                   autocomplete="off" placeholder="Enter your name" required minlength="2"
+                                   [(ngModel)]="requiredField" #formRequiredField="ngModel">
+                            <div
+                                *ngIf="formRequiredField.invalid && (formRequiredField.dirty || formRequiredField.touched)">
+                                <div *ngIf="formRequiredField.errors.required" class="pt-2">
+                                    This is a required field.
+                                </div>
+                                <div *ngIf="formRequiredField.errors.minlength" class="pt-2">
+                                    Minimum length is 2 chars.
+                                </div>
+                            </div>
+                        </div>
+                        <msq-component-animated-button [state]="validationState" [disabled]="validation.invalid"
+                                                       [options]="{defaultClass: 'btn-primary', iconPosition: 'left'}">
+                            Validation
+                        </msq-component-animated-button>
+                    </form>
+                </div>
+                <div class="col-sm"></div>
+            </div>
         </div>
-        <div class="col-sm"></div>
+        <div class="col">
+            <div class="row">
+                <div class="col-sm">
+                    <h3>
+                        Settings
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <form novalidate (ngSubmit)="onSettingsSubmit(settingsFormGroup)" [formGroup]="settingsFormGroup">
+                        <div class="form-group">
+                            <label for="defaultClass">Default class</label>
+                            <select class="form-control" id="defaultClass" formControlName="defaultClass">
+                                <option>btn-default</option>
+                                <option>btn-primary</option>
+                                <option>btn-secondary</option>
+                                <option>btn-success</option>
+                                <option>btn-info</option>
+                                <option>btn-warning</option>
+                                <option>btn-danger</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="submittingClass">Submitting class</label>
+                            <select class="form-control" id="submittingClass" formControlName="submittingClass">
+                                <option>btn-default</option>
+                                <option>btn-primary</option>
+                                <option>btn-secondary</option>
+                                <option>btn-success</option>
+                                <option>btn-info</option>
+                                <option>btn-warning</option>
+                                <option>btn-danger</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="successClass">Success class</label>
+                            <select class="form-control" id="successClass" formControlName="successClass">
+                                <option>btn-default</option>
+                                <option>btn-primary</option>
+                                <option>btn-secondary</option>
+                                <option>btn-success</option>
+                                <option>btn-info</option>
+                                <option>btn-warning</option>
+                                <option>btn-danger</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="errorClass">Error class</label>
+                            <select class="form-control" id="errorClass" formControlName="errorClass">
+                                <option>btn-default</option>
+                                <option>btn-primary</option>
+                                <option>btn-secondary</option>
+                                <option>btn-success</option>
+                                <option>btn-info</option>
+                                <option>btn-warning</option>
+                                <option>btn-danger</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="iconPosition">Example multiple select</label>
+                            <select class="form-control" id="iconPosition" formControlName="iconPosition">
+                                <option>left</option>
+                                <option>right</option>
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="enabledOnSuccess"
+                                   formControlName="enabledOnSuccess">
+                            <label class="form-check-label" for="enabledOnSuccess">Enabled on success</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="returnToDefaultState"
+                                   formControlName="returnToDefaultState">
+                            <label class="form-check-label" for="returnToDefaultState">Return to default state</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
