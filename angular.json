@@ -8,6 +8,9 @@
             "sourceRoot": "apps/demo/src",
             "projectType": "application",
             "prefix": "app",
+            "cli": {
+                "defaultCollection": "@schematics/angular"
+            },
             "schematics": {
                 "@schematics/angular:component": {
                     "styleext": "scss",
@@ -128,6 +131,33 @@
             "sourceRoot": "libs/ngx-bootstrap-animated-button/src",
             "projectType": "library",
             "prefix": "msq",
+            "cli": {
+                "defaultCollection": "@schematics/angular"
+            },
+            "schematics": {
+                "@schematics/angular:component": {
+                    "styleext": "scss",
+                    "spec": false
+                },
+                "@schematics/angular:class": {
+                    "spec": false
+                },
+                "@schematics/angular:directive": {
+                    "spec": false
+                },
+                "@schematics/angular:guard": {
+                    "spec": false
+                },
+                "@schematics/angular:module": {
+                    "spec": false
+                },
+                "@schematics/angular:pipe": {
+                    "spec": false
+                },
+                "@schematics/angular:service": {
+                    "spec": false
+                }
+            },
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-ng-packagr:build",

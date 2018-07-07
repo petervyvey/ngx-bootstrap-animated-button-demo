@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "msq",
+      "cit",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "msq",
+      "cit",
       "kebab-case"
     ]
   }

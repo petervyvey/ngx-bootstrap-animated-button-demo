@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { FakeApiService } from '@demo/shared/services/fake-api/fake-api.service';
-import { IAnimatedButtonSettings } from '@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-settings';
-import { AnimatedButtonState } from '@ngx-bootstrap-animated-button/src/lib/shared/components/animated-button/animated-button-state';
+import { IAnimatedButtonSettings, AnimatedButtonState } from '@ngx-bootstrap-animated-button/ngx-bootstrap-animated-button';
 import { first } from 'rxjs/operators';
 
 

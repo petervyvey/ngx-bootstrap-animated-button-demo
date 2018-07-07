@@ -11,9 +11,9 @@
             <div class="row">
                 <div class="col-sm">
                     <form #basic="ngForm" (submit)="onBasicSubmitted(basic)">
-                        <msq-component-animated-button [state]="basicState" [options]="options">
+                        <cit-component-animated-button [state]="basicState" [options]="options">
                             Submit
-                        </msq-component-animated-button>
+                        </cit-component-animated-button>
                     </form>
                 </div>
                 <div class="col-sm"></div>
@@ -21,10 +21,10 @@
             <div class="row" style="padding-top:20px;">
                 <div class="col-sm">
                     <form #error="ngForm" (submit)="onErrorSubmitted(error)">
-                        <msq-component-animated-button [state]="errorState"
+                        <cit-component-animated-button [state]="errorState"
                                                        [options]="options">
                             Wrong
-                        </msq-component-animated-button>
+                        </cit-component-animated-button>
                     </form>
                 </div>
                 <div class="col-sm"></div>
@@ -50,7 +50,7 @@
                         <msq-component-animated-button [state]="validationState" [disabled]="validation.invalid"
                                                        [options]="options">
                             Validation
-                        </msq-component-animated-button>
+                        </cit-component-animated-button>
                     </form>
                 </div>
                 <div class="col-sm"></div>
