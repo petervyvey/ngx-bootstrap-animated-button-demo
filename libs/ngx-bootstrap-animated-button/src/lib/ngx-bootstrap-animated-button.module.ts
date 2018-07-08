@@ -9,11 +9,11 @@ import { AnimatedButtonModule } from './components/animated-button/animated-butt
     imports: [
         CommonModule,
         AnimatedButtonModule
-    ]
+    ],
+    exports: [AnimatedButtonModule]
 })
 export class NgxBootstrapAnimatedButtonModule {}
 
-export { AnimatedButtonModule };
 export { animatedButtonDefaultSettings, IAnimatedButtonSettings, ICssClasses };
 export { AnimatedButtonState };
 
